@@ -1,0 +1,24 @@
+<input type="text" pInputText  />
+asd
+<p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id" [globalFilterFields]="['code', 'name']">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Code                    
+                <p-columnFilter type="text" field="code" display="menu" />
+            </th>
+            <th>Name
+                <p-columnFilter type="text" field="name" display="menu" />
+            </th>
+            <th>Category</th>
+            <th>Quantity</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+        <tr>
+            <td>{{ product.code }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.quantity }}</td>
+        </tr>
+    </ng-template>
+</p-table>
