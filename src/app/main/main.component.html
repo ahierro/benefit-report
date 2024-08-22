@@ -33,6 +33,9 @@
             <th>InNetwork
                 <p-columnFilter type="text" field="inNetwork" display="menu" />
             </th> 
+            <th pSortableColumn="preOrPostFilter">Pre Or Post Filter <p-sortIcon field="stc" />
+                <p-columnFilter type="text" field="preOrPostFilter" display="menu" />
+            </th> 
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-benefit>
@@ -45,6 +48,7 @@
             <td>{{ benefit.iIIs }}</td>
             <td>{{ benefit.planDesc }}</td>
             <td>{{ benefit.inNetwork }}</td>
+            <td>{{ benefit.preOrPostFilter }}</td>
         </tr>
     </ng-template>
 </p-table>

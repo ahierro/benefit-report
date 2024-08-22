@@ -9,7 +9,7 @@ import { Benefit } from '../dto/Benefit';
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [InputTextModule,TableModule,FormsModule,InputTextareaModule,ButtonModule ],
+  imports: [InputTextModule, TableModule, FormsModule, InputTextareaModule, ButtonModule],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
@@ -17,15 +17,22 @@ export class MainComponent {
   benefitsText = '';
   benefits: Benefit[] = [] as Benefit[];
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
   }
   submitBenefits() {
     let arr = this.benefitsText.split(/\r?\n/);
     this.benefits = [];
+    let preOrPostFilter = 'PRE';
+    let gotToFirstBenefitTable = false;
     arr.forEach((line) => {
       var arrLine = line.match('.*STC: (.*) Type: (.*) InsurTypeCode .* CvgQual (.*) PlanDesc: (.*) Value: (.*) InNetwork: (.*) BnftCvgeCode: .* RefId: .* ALLMSG: (.*) IIIs: (.*) Src: .*');
+      if (arrLine && arrLine.length > 1) {
+        gotToFirstBenefitTable = true;
+      } else if (gotToFirstBenefitTable) {
+        preOrPostFilter = 'POST';
+      }
       const benefit: Benefit = {
         stc: this.getVal(arrLine || [], 1),
         bType: this.getVal(arrLine || [], 2),
@@ -34,14 +41,15 @@ export class MainComponent {
         cvgQual: this.getVal(arrLine || [], 3),
         iIIs: this.getVal(arrLine || [], 8),
         planDesc: this.getVal(arrLine || [], 4),
-        inNetwork: this.getVal(arrLine || [], 6)
+        inNetwork: this.getVal(arrLine || [], 6),
+        preOrPostFilter: preOrPostFilter
       };
-      if(benefit.stc){
+      if (benefit.stc) {
         this.benefits.push(benefit);
       }
     });
   }
-  getVal(arrLine: string[],index: number): string {
+  getVal(arrLine: string[], index: number): string {
     return arrLine && arrLine[index] ? arrLine[index] : ''
   }
 }
