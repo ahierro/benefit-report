@@ -25,7 +25,7 @@ export class MainComponent {
     let arr = this.benefitsText.split(/\r?\n/);
     this.benefits = [];
     arr.forEach((line) => {
-      var arrLine = line.match('.*STC: ([0-9]{2}) Type: (.*) InsurTypeCode PR CvgQual (.*) PlanDesc: (.*) Value: (.*) InNetwork: (.*) BnftCvgeCode: IND RefId: null ALLMSG: (.*) IIIs: (.*) Src: edi.61101.*');
+      var arrLine = line.match('.*STC: (.*) Type: (.*) InsurTypeCode .* CvgQual (.*) PlanDesc: (.*) Value: (.*) InNetwork: (.*) BnftCvgeCode: .* RefId: .* ALLMSG: (.*) IIIs: (.*) Src: .*');
       const benefit: Benefit = {
         stc: this.getVal(arrLine || [], 1),
         bType: this.getVal(arrLine || [], 2),
