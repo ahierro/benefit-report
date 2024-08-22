@@ -1,24 +1,50 @@
-<input type="text" pInputText  />
-asd
-<p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id" [globalFilterFields]="['code', 'name']">
+<div class="textAreaParent">
+    <textarea pInputTextarea [(ngModel)]="benefitsText">
+    </textarea>
+</div>
+<div>
+    <button pButton type="button" label="Submit" (click)="submitBenefits()"></button>
+</div>
+<p-table [value]="benefits" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
+    [globalFilterFields]="['stc','bType','val','msg','cvgQual','iIIs','planDesc','inNetwork']">
     <ng-template pTemplate="header">
         <tr>
-            <th>Code                    
-                <p-columnFilter type="text" field="code" display="menu" />
+            <th pSortableColumn="stc">STC <p-sortIcon field="stc" />
+                <p-columnFilter type="text" field="stc" display="menu" />
             </th>
-            <th>Name
-                <p-columnFilter type="text" field="name" display="menu" />
+            <th pSortableColumn="bType">Type <p-sortIcon field="bType" />
+                <p-columnFilter type="text" field="bType" display="menu" />
             </th>
-            <th>Category</th>
-            <th>Quantity</th>
+            <th pSortableColumn="val">Value <p-sortIcon field="val" />
+                <p-columnFilter type="text" field="val" display="menu" />
+            </th>
+            <th>ALLMSG
+                <p-columnFilter type="text" field="msg" display="menu" />
+            </th>
+            <th>CvgQual
+                <p-columnFilter type="text" field="cvgQual" display="menu" />
+            </th>
+            <th>IIIs
+                <p-columnFilter type="text" field="iIIs" display="menu" />
+            </th>
+            <th>PlanDesc
+                <p-columnFilter type="text" field="planDesc" display="menu" />
+            </th>
+            <th>InNetwork
+                <p-columnFilter type="text" field="inNetwork" display="menu" />
+            </th> 
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-product>
+    <ng-template pTemplate="body" let-benefit>
         <tr>
-            <td>{{ product.code }}</td>
-            <td>{{ product.name }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.quantity }}</td>
+            <td>{{ benefit.stc }}</td>
+            <td>{{ benefit.bType }}</td>
+            <td>{{ benefit.val }}</td>
+            <td>{{ benefit.msg }}</td>
+            <td>{{ benefit.cvgQual }}</td>
+            <td>{{ benefit.iIIs }}</td>
+            <td>{{ benefit.planDesc }}</td>
+            <td>{{ benefit.inNetwork }}</td>
         </tr>
     </ng-template>
 </p-table>

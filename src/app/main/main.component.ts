@@ -1,24 +1,47 @@
 import { Component } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
-import { ProductService } from '../product.service';
-import { Product } from '../dto/Product';
+import { FormsModule } from '@angular/forms';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ButtonModule } from 'primeng/button';
+import { Benefit } from '../dto/Benefit';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [InputTextModule,TableModule],
+  imports: [InputTextModule,TableModule,FormsModule,InputTextareaModule,ButtonModule ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
-  products!: Product[];
+  benefitsText = '';
+  benefits: Benefit[] = [] as Benefit[];
 
-  constructor(private productService: ProductService) {}
+  constructor() {}
 
   ngOnInit() {
-      this.productService.getProducts().then((data) => {
-          this.products = data;
-      });
+  }
+  submitBenefits() {
+    let arr = this.benefitsText.split(/\r?\n/);
+    this.benefits = [];
+    arr.forEach((line) => {
+      var arrLine = line.match('.*STC: ([0-9]{2}) Type: (.*) InsurTypeCode PR CvgQual (.*) PlanDesc: (.*) Value: (.*) InNetwork: (.*) BnftCvgeCode: IND RefId: null ALLMSG: (.*) IIIs: (.*) Src: edi.61101.*');
+      const benefit: Benefit = {
+        stc: this.getVal(arrLine || [], 1),
+        bType: this.getVal(arrLine || [], 2),
+        val: this.getVal(arrLine || [], 5),
+        msg: this.getVal(arrLine || [], 7),
+        cvgQual: this.getVal(arrLine || [], 3),
+        iIIs: this.getVal(arrLine || [], 8),
+        planDesc: this.getVal(arrLine || [], 4),
+        inNetwork: this.getVal(arrLine || [], 6)
+      };
+      if(benefit.stc){
+        this.benefits.push(benefit);
+      }
+    });
+  }
+  getVal(arrLine: string[],index: number): string {
+    return arrLine && arrLine[index] ? arrLine[index] : ''
   }
 }
