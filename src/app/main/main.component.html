@@ -5,6 +5,25 @@
 <div>
     <button pButton type="button" label="Submit" (click)="submitBenefits()"></button>
 </div>
+<p-table [value]="rules" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
+    [globalFilterFields]="['scope','rule']">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="scope">Scope <p-sortIcon field="scope" />
+                <p-columnFilter type="text" field="scope" display="menu" />
+            </th>
+            <th pSortableColumn="rule">Rule <p-sortIcon field="rule" />
+                <p-columnFilter type="text" field="rule" display="menu" />
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rule>
+        <tr>
+            <td>{{ rule.scope }}</td>
+            <td>{{ rule.rule }}</td>
+        </tr>
+    </ng-template>
+</p-table>
 <p-table [value]="benefits" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
     [globalFilterFields]="['stc','bType','val','msg','cvgQual','iIIs','planDesc','inNetwork']">
     <ng-template pTemplate="header">
@@ -33,8 +52,8 @@
             <th>InNetwork
                 <p-columnFilter type="text" field="inNetwork" display="menu" />
             </th> 
-            <th pSortableColumn="preOrPostFilter">Pre Or Post Filter <p-sortIcon field="stc" />
-                <p-columnFilter type="text" field="preOrPostFilter" display="menu" />
+            <th pSortableColumn="filteredOut">Removed <p-sortIcon field="stc" />
+                <p-columnFilter type="text" field="filteredOut" display="menu" />
             </th> 
         </tr>
     </ng-template>
@@ -48,7 +67,7 @@
             <td>{{ benefit.iIIs }}</td>
             <td>{{ benefit.planDesc }}</td>
             <td>{{ benefit.inNetwork }}</td>
-            <td>{{ benefit.preOrPostFilter }}</td>
+            <td>{{ benefit.filteredOut }}</td>
         </tr>
     </ng-template>
 </p-table>
