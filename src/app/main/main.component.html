@@ -2,11 +2,39 @@
     <textarea pInputTextarea [(ngModel)]="benefitsText">
     </textarea>
 </div>
+<p-toast position="top-center" />
 <div>
     <button pButton type="button" label="Submit" (click)="submitBenefits()"></button>
 </div>
-<p-table [value]="rules" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
-    [globalFilterFields]="['scope','rule']">
+<div class="toolbarArea">
+    <div>
+        <label for="onlyABC">Show Only Types A,B,C </label>
+        <p-checkbox [(ngModel)]="onlyABC" [binary]="true" inputId="onlyABC" />
+    </div>
+    <div>
+        <label for="showRules">Show Rules </label>
+        <p-checkbox [(ngModel)]="showRules" [binary]="true" inputId="showRules" />
+    </div>
+    <div>
+        <label for="showCvgQual">CvgQual </label>
+        <p-checkbox [(ngModel)]="showCvgQual" [binary]="true" inputId="showCvgQual" />
+    </div>
+    <div>
+        <label for="showIIIs">IIIs </label>
+        <p-checkbox [(ngModel)]="showIIIs" [binary]="true" inputId="showIIIs" />
+    </div>
+    <div>
+        <label for="showplanDesc">PlanDesc </label>
+        <p-checkbox [(ngModel)]="showplanDesc" [binary]="true" inputId="showplanDesc" />
+    </div>
+    <div>
+        <label for="showInNetwork">InNetwork </label>
+        <p-checkbox [(ngModel)]="showInNetwork" [binary]="true" inputId="showInNetwork" />
+    </div>
+</div>
+@if (showRules) {
+<p-table [value]="rules" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id" [globalFilterFields]="['scope','rule']"
+    ng-if>
     <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="scope">Scope <p-sortIcon field="scope" />
@@ -24,37 +52,65 @@
         </tr>
     </ng-template>
 </p-table>
+}
 <p-table [value]="benefits" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
     [globalFilterFields]="['stc','bType','val','msg','cvgQual','iIIs','planDesc','inNetwork']">
     <ng-template pTemplate="header">
         <tr>
-            <th pSortableColumn="stc">STC <p-sortIcon field="stc" />
-                <p-columnFilter type="text" field="stc" display="menu" />
+            <th style="width: 10vmax">STC</th>
+            <th style="width: 10vmax">Type</th>
+            <th style="width: 10vmax">Value</th>
+            <th>ALLMSG</th>
+            @if (showCvgQual) {
+            <th  style="width: 10vmax">CvgQual</th>
+            }
+            @if (showIIIs) {
+            <th  style="width: 10vmax">IIIs</th>
+            }
+            @if (showplanDesc) {
+            <th>PlanDesc</th>
+            }
+            @if (showInNetwork) {
+            <th  style="width: 10vmax">InNetwork</th>
+            }
+            <th style="width: 10vmax">Removed</th>
+        </tr>
+        <tr>
+            <th>
+                <p-columnFilter type="text" matchMode="equals" field="stc" />
             </th>
-            <th pSortableColumn="bType">Type <p-sortIcon field="bType" />
-                <p-columnFilter type="text" field="bType" display="menu" />
+            <th>
+                <p-columnFilter type="text" matchMode="equals" field="bType" />
             </th>
-            <th pSortableColumn="val">Value <p-sortIcon field="val" />
-                <p-columnFilter type="text" field="val" display="menu" />
+            <th> 
+                <p-columnFilter type="text" matchMode="contains" field="val"  />
             </th>
-            <th>ALLMSG
-                <p-columnFilter type="text" field="msg" display="menu" />
+            <th>
+                <p-columnFilter type="text" matchMode="contains" field="msg"  />
             </th>
-            <th>CvgQual
-                <p-columnFilter type="text" field="cvgQual" display="menu" />
+            @if (showCvgQual) {
+            <th>
+                <p-columnFilter type="text" field="cvgQual" />
             </th>
-            <th>IIIs
-                <p-columnFilter type="text" field="iIIs" display="menu" />
+            }
+            @if (showIIIs) {
+            <th>
+                <p-columnFilter type="text" field="iIIs" />
             </th>
-            <th>PlanDesc
-                <p-columnFilter type="text" field="planDesc" display="menu" />
+            }
+            @if (showplanDesc) {
+            <th>
+                <p-columnFilter type="text" field="planDesc"/>
             </th>
-            <th>InNetwork
-                <p-columnFilter type="text" field="inNetwork" display="menu" />
-            </th> 
-            <th pSortableColumn="filteredOut">Removed <p-sortIcon field="stc" />
-                <p-columnFilter type="text" field="filteredOut" display="menu" />
-            </th> 
+            }
+            @if (showInNetwork) {
+            <th>
+                <p-columnFilter type="text" field="inNetwork" />
+            </th>
+            }
+            <th>
+                <p-columnFilter type="text" field="filteredOut" />
+            </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-benefit>
@@ -63,10 +119,18 @@
             <td>{{ benefit.bType }}</td>
             <td>{{ benefit.val }}</td>
             <td>{{ benefit.msg }}</td>
+            @if (showCvgQual) {
             <td>{{ benefit.cvgQual }}</td>
+            }
+            @if (showIIIs) {
             <td>{{ benefit.iIIs }}</td>
+            }
+            @if (showplanDesc) {
             <td>{{ benefit.planDesc }}</td>
+            }
+            @if (showInNetwork) {
             <td>{{ benefit.inNetwork }}</td>
+            }
             <td>{{ benefit.filteredOut }}</td>
         </tr>
     </ng-template>

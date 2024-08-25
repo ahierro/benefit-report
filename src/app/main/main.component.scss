@@ -7,3 +7,22 @@
   justify-content: center;
   align-items: stretch;
 }
+.toolbarArea{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+td{
+  padding: 5px;
+  border: 1px solid #424b57;
+  text-align: center;
+}
+th{
+  padding: 5px;
+  border: 1px solid #424b57;
+  text-align: center;
+}
+:host ::ng-deep .p-inputtext{
+      padding: 5px;
+}

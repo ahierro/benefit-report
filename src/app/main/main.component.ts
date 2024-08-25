@@ -6,11 +6,16 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { Benefit } from '../dto/Benefit';
 import { Rule } from '../dto/Rule';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { CheckboxModule } from 'primeng/checkbox';
+import sortBy from 'lodash.sortby';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [InputTextModule, TableModule, FormsModule, InputTextareaModule, ButtonModule],
+  imports: [InputTextModule, TableModule, FormsModule, InputTextareaModule, ButtonModule, ToastModule, CheckboxModule],
+  providers: [MessageService],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
@@ -18,10 +23,25 @@ export class MainComponent {
   benefitsText = '';
   benefits: Benefit[] = [] as Benefit[];
   rules: Rule[] = [] as Rule[];
-
-  constructor() { }
+  showRules: boolean = false;
+  showCvgQual: boolean = false;
+  showIIIs: boolean = false;
+  showplanDesc: boolean = false;
+  showInNetwork: boolean = false;
+  onlyABC: boolean = true;
+  constructor(private messageService: MessageService) { }
 
   ngOnInit() {
+  }
+  formatStc(stc: string): string {
+    if (stc && stc.length == 1) {
+      return '0' + stc;
+    } else {
+      return stc;
+    }
+  }
+  showError(message: string) {
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
   }
   submitBenefits() {
     let allLogLines = this.benefitsText.split(/\r?\n/);
@@ -38,6 +58,9 @@ export class MainComponent {
 
     let gotToFirstBenefitTable = false;
     allLogLines.forEach((line) => {
+      if (line.includes('Process finished with exit code 1')) {
+        this.showError('Process finished with exit code 1');
+      }
       var scopeLine = line.match('.*Hit scope: (.*) at.*');
       if (scopeLine && scopeLine.length > 1) {
         scope = this.getVal(scopeLine || [], 1);
@@ -60,7 +83,7 @@ export class MainComponent {
       }
       const benefit: Benefit = {
         id: idBenefit++,
-        stc: this.getVal(benefitLine || [], 1),
+        stc: this.formatStc(this.getVal(benefitLine || [], 1)),
         bType: this.getVal(benefitLine || [], 2),
         val: this.getVal(benefitLine || [], 5),
         msg: this.getVal(benefitLine || [], 7),
@@ -95,6 +118,16 @@ export class MainComponent {
     });
     postBenefits.forEach(postb => {
       this.benefits.push(postb);
+    });
+    this.benefits = sortBy(this.benefits, ['stc', 'bType', 'msg']);
+    this.rules = sortBy(this.rules, ['scope', 'rule']);
+    if(this.onlyABC){
+      this.benefits = this.benefits.filter(b => b.bType.startsWith('A') || b.bType.startsWith('B') || b.bType.startsWith('C'));
+    }
+    this.benefits.forEach(b => {
+      if(b.stc.startsWith('0')){
+        b.stc = b.stc.substring(1);
+      }
     });
   }
   getVal(arrLine: string[], index: number): string {
