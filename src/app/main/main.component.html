@@ -3,7 +3,7 @@
     </textarea>
 </div>
 <p-toast position="top-center" />
-<div>
+<div class="submitButton">
     <button pButton type="button" label="Submit" (click)="submitBenefits()"></button>
 </div>
 <div class="toolbarArea">
@@ -37,11 +37,15 @@
     ng-if>
     <ng-template pTemplate="header">
         <tr>
-            <th pSortableColumn="scope">Scope <p-sortIcon field="scope" />
-                <p-columnFilter type="text" field="scope" display="menu" />
+            <th>Scope</th>
+            <th>Rule</th>
+        </tr>
+        <tr>
+            <th>
+                <p-columnFilter type="text" field="scope" />
             </th>
-            <th pSortableColumn="rule">Rule <p-sortIcon field="rule" />
-                <p-columnFilter type="text" field="rule" display="menu" />
+            <th>
+                <p-columnFilter type="text" field="rule" matchMode="contains"  />
             </th>
         </tr>
     </ng-template>

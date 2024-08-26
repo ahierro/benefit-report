@@ -26,3 +26,14 @@ th{
 :host ::ng-deep .p-inputtext{
       padding: 5px;
 }
+:host ::ng-deep .p-datatable-table{
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+:host ::ng-deep .p-datatable-wrapper {
+  overflow: hidden;
+}
+.submitButton{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
