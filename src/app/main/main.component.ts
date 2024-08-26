@@ -58,8 +58,8 @@ export class MainComponent {
 
     let gotToFirstBenefitTable = false;
     allLogLines.forEach((line) => {
-      if (line.includes('Process finished with exit code 1')) {
-        this.showError('Process finished with exit code 1');
+      if (line.includes('Failed to fire rules') || line.includes('.exception.')) {
+        this.showError(line);
       }
       var scopeLine = line.match('.*Hit scope: (.*) at.*');
       if (scopeLine && scopeLine.length > 1) {
