@@ -57,6 +57,8 @@ export class MainComponent {
     let idBenefit = 1;
 
     let gotToFirstBenefitTable = false;
+    let gotToSecondBenefitTable = false;
+
     allLogLines.forEach((line) => {
       if (line.includes('Failed to fire rules') || line.includes('.exception.')) {
         this.showError(line);
@@ -75,11 +77,19 @@ export class MainComponent {
           } as Rule);
         }
       }
-      var benefitLine = line.match('.*STC: (.*) Type: (.*) InsurTypeCode .* CvgQual (.*) PlanDesc: (.*) Value: (.*) InNetwork: (.*) BnftCvgeCode: .* RefId: .* ALLMSG: (.*) IIIs: (.*) Src: .*');
-      if (benefitLine && benefitLine.length > 1) {
+      var benefitLine = line.match('.*STC: (.*) Type: (.*) InsurTypeCode .* CvgQual (.*) PlanDesc: (.*) Value: (.*) InNetwork: (.*) BnftCvgeCode: .* RefId: .* ALLMSG: (.*) IIIs: (\S*)');
+      if (benefitLine && benefitLine.length > 1 && !gotToFirstBenefitTable) {
+        // console.log("got1Table",line);
         gotToFirstBenefitTable = true;
-      } else if (gotToFirstBenefitTable) {
+      } 
+      if (benefitLine && benefitLine.length > 1 && gotToFirstBenefitTable && !gotToSecondBenefitTable && filterOut == '-') {
+        // console.log("got2Table",line);
+        gotToSecondBenefitTable = true;
         filterOut = 'N';
+      }
+      if ((!benefitLine || benefitLine.length <= 1) && gotToFirstBenefitTable) {
+        // console.log("-----");
+        filterOut = '-';
       }
       const benefit: Benefit = {
         id: idBenefit++,
@@ -101,7 +111,10 @@ export class MainComponent {
           postBenefits.push(benefit);
         }
       }
-    });
+    }
+  
+  );
+
     preBenefits.forEach(preb => {
       if (!postBenefits.find(postb =>
         preb.stc === postb.stc &&
