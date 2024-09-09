@@ -9,7 +9,7 @@
 <div class="toolbarArea">
     <div>
         <label for="onlyABC">Show Only Types A,B,C </label>
-        <p-checkbox [(ngModel)]="onlyABC" [binary]="true" inputId="onlyABC" />
+        <p-checkbox [(ngModel)]="onlyABC" [binary]="true" inputId="onlyABC" (click)="changed($event)" />
     </div>
     <div>
         <label for="showRules">Show Rules </label>

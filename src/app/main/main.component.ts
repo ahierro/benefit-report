@@ -43,6 +43,11 @@ export class MainComponent {
   showError(message: string) {
     this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
   }
+  changed(event: any) {
+    setTimeout(() => {
+      this.submitBenefits();
+    }, 1);
+  }
   submitBenefits() {
     let allLogLines = this.benefitsText.split(/\r?\n/);
     this.benefits = [];
@@ -77,7 +82,8 @@ export class MainComponent {
           } as Rule);
         }
       }
-      var benefitLine = line.match('.*STC: (.*) Type: (.*) InsurTypeCode .* CvgQual (.*) PlanDesc: (.*) Value: (.*) InNetwork: (.*) BnftCvgeCode: .* RefId: .* ALLMSG: (.*) IIIs: (\S*)');
+      var benefitLine = line.match('.*STC: (.*) Type: (.*) InsurTypeCode .* CvgQual (.*) PlanDesc: (.*) Value: (.*) InNetwork: (.*) BnftCvgeCode: .* RefId: .* ALLMSG: (.*) IIIs: (\\S*).*');
+
       if (benefitLine && benefitLine.length > 1 && !gotToFirstBenefitTable) {
         // console.log("got1Table",line);
         gotToFirstBenefitTable = true;
@@ -135,7 +141,7 @@ export class MainComponent {
     this.benefits = sortBy(this.benefits, ['stc', 'bType', 'msg']);
     this.rules = sortBy(this.rules, ['scope', 'rule']);
     if(this.onlyABC){
-      this.benefits = this.benefits.filter(b => b.bType.startsWith('A') || b.bType.startsWith('B') || b.bType.startsWith('C'));
+      this.benefits = this.benefits.filter(b => b.bType == 'A' || b.bType == 'B' || b.bType == 'C');
     }
     this.benefits.forEach(b => {
       if(b.stc.startsWith('0')){
