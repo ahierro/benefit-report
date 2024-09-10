@@ -24,6 +24,10 @@
         <p-checkbox [(ngModel)]="showIIIs" [binary]="true" inputId="showIIIs" />
     </div>
     <div>
+        <label for="showBnftCvgeCode">CvgeCode </label>
+        <p-checkbox [(ngModel)]="showBnftCvgeCode" [binary]="true" inputId="showBnftCvgeCode" />
+    </div>
+    <div>
         <label for="showplanDesc">PlanDesc </label>
         <p-checkbox [(ngModel)]="showplanDesc" [binary]="true" inputId="showplanDesc" />
     </div>
@@ -45,7 +49,7 @@
                 <p-columnFilter type="text" field="scope" />
             </th>
             <th>
-                <p-columnFilter type="text" field="rule" matchMode="contains"  />
+                <p-columnFilter type="text" field="rule" matchMode="contains" />
             </th>
         </tr>
     </ng-template>
@@ -66,16 +70,19 @@
             <th style="width: 10vmax">Value</th>
             <th>ALLMSG</th>
             @if (showCvgQual) {
-            <th  style="width: 10vmax">CvgQual</th>
+            <th style="width: 10vmax">CvgQual</th>
             }
             @if (showIIIs) {
-            <th  style="width: 10vmax">IIIs</th>
+            <th style="width: 10vmax">IIIs</th>
             }
             @if (showplanDesc) {
             <th>PlanDesc</th>
             }
             @if (showInNetwork) {
-            <th  style="width: 10vmax">InNetwork</th>
+            <th style="width: 10vmax">InNetwork</th>
+            }
+            @if (showBnftCvgeCode) {
+            <th style="width: 10vmax">CvgeCode</th>
             }
             <th style="width: 10vmax">Removed</th>
         </tr>
@@ -86,11 +93,11 @@
             <th>
                 <p-columnFilter type="text" matchMode="equals" field="bType" />
             </th>
-            <th> 
-                <p-columnFilter type="text" matchMode="contains" field="val"  />
+            <th>
+                <p-columnFilter type="text" matchMode="contains" field="val" />
             </th>
             <th>
-                <p-columnFilter type="text" matchMode="contains" field="msg"  />
+                <p-columnFilter type="text" matchMode="contains" field="msg" />
             </th>
             @if (showCvgQual) {
             <th>
@@ -104,12 +111,17 @@
             }
             @if (showplanDesc) {
             <th>
-                <p-columnFilter type="text" field="planDesc"/>
+                <p-columnFilter type="text" field="planDesc" />
             </th>
             }
             @if (showInNetwork) {
             <th>
                 <p-columnFilter type="text" field="inNetwork" />
+            </th>
+            }
+            @if (showBnftCvgeCode) {
+            <th>
+                <p-columnFilter type="text" field="bnftCvgeCode" />
             </th>
             }
             <th>
@@ -134,6 +146,9 @@
             }
             @if (showInNetwork) {
             <td>{{ benefit.inNetwork }}</td>
+            }
+            @if (showBnftCvgeCode) {
+            <td>{{ benefit.bnftCvgeCode }}</td>
             }
             <td>{{ benefit.filteredOut }}</td>
         </tr>

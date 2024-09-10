@@ -8,5 +8,6 @@ export interface Benefit {
     iIIs: string;
     planDesc: string;
     inNetwork: string;
+    bnftCvgeCode: string;
     filteredOut: string;
 }

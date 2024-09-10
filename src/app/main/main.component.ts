@@ -28,6 +28,7 @@ export class MainComponent {
   showIIIs: boolean = false;
   showplanDesc: boolean = false;
   showInNetwork: boolean = false;
+  showBnftCvgeCode: boolean = false;
   onlyABC: boolean = true;
   constructor(private messageService: MessageService) { }
 
@@ -82,8 +83,8 @@ export class MainComponent {
           } as Rule);
         }
       }
-      var benefitLine = line.match('.*STC: (.*) Type: (.*) InsurTypeCode .* CvgQual (.*) PlanDesc: (.*) Value: (.*) InNetwork: (.*) BnftCvgeCode: .* RefId: .* ALLMSG: (.*) IIIs: (\\S*).*');
-
+      var benefitLine = line.match('.*STC: (.*) Type: (.*) InsurTypeCode .* CvgQual (.*) PlanDesc: (.*) Value: (.*) InNetwork: (.*) BnftCvgeCode: (.*) RefId: .* ALLMSG: (.*) IIIs: (\\S*).*');
+//  BnftCvgeCode: IND 
       if (benefitLine && benefitLine.length > 1 && !gotToFirstBenefitTable) {
         // console.log("got1Table",line);
         gotToFirstBenefitTable = true;
@@ -102,11 +103,12 @@ export class MainComponent {
         stc: this.formatStc(this.getVal(benefitLine || [], 1)),
         bType: this.getVal(benefitLine || [], 2),
         val: this.getVal(benefitLine || [], 5),
-        msg: this.getVal(benefitLine || [], 7),
+        msg: this.getVal(benefitLine || [], 8),
         cvgQual: this.getVal(benefitLine || [], 3),
-        iIIs: this.getVal(benefitLine || [], 8),
+        iIIs: this.getVal(benefitLine || [], 9),
         planDesc: this.getVal(benefitLine || [], 4),
         inNetwork: this.getVal(benefitLine || [], 6),
+        bnftCvgeCode: this.getVal(benefitLine || [], 7),
         filteredOut: filterOut
       };
       if (benefit.stc) {
@@ -130,6 +132,7 @@ export class MainComponent {
         preb.cvgQual === postb.cvgQual &&
         preb.iIIs === postb.iIIs &&
         preb.planDesc === postb.planDesc &&
+        preb.bnftCvgeCode === postb.bnftCvgeCode &&
         preb.inNetwork === postb.inNetwork
       )) {
         this.benefits.push(preb);
