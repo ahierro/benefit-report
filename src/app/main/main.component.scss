@@ -7,33 +7,44 @@
   justify-content: center;
   align-items: stretch;
 }
-.toolbarArea{
+
+.toolbarArea {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: stretch;
 }
-td{
+
+:host ::ng-deep .p-datatable-thead>tr>th,
+:host ::ng-deep .p-datatable-tbody>tr>td {
   padding: 5px;
   border: 1px solid #424b57;
   text-align: center;
 }
-th{
+
+:host ::ng-deep .textarea {
+  background: #111827;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+  background: #1f2937;
+}
+
+:host ::ng-deep .p-inputtext {
   padding: 5px;
-  border: 1px solid #424b57;
-  text-align: center;
+  background: #111827;
 }
-:host ::ng-deep .p-inputtext{
-      padding: 5px;
-}
-:host ::ng-deep .p-datatable-table{
+
+:host ::ng-deep .p-datatable-table {
   margin-top: 10px;
   margin-bottom: 20px;
 }
+
 :host ::ng-deep .p-datatable-wrapper {
   overflow: hidden;
 }
-.submitButton{
+
+.submitButton {
   margin-top: 10px;
   margin-bottom: 10px;
 }

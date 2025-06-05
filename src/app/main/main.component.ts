@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { FormsModule } from '@angular/forms';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { Benefit } from '../dto/Benefit';
 import { Rule } from '../dto/Rule';
@@ -12,12 +11,11 @@ import { CheckboxModule } from 'primeng/checkbox';
 import sortBy from 'lodash.sortby';
 
 @Component({
-  selector: 'app-main',
-  standalone: true,
-  imports: [InputTextModule, TableModule, FormsModule, InputTextareaModule, ButtonModule, ToastModule, CheckboxModule],
-  providers: [MessageService],
-  templateUrl: './main.component.html',
-  styleUrl: './main.component.scss'
+    selector: 'app-main',
+    imports: [InputTextModule, TableModule, FormsModule, ButtonModule, ToastModule, CheckboxModule],
+    providers: [MessageService],
+    templateUrl: './main.component.html',
+    styleUrl: './main.component.scss'
 })
 export class MainComponent {
   benefitsText = '';

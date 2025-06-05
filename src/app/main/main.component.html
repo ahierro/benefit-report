@@ -1,5 +1,5 @@
 <div class="textAreaParent">
-    <textarea pInputTextarea [(ngModel)]="benefitsText">
+    <textarea class="textarea" pInputTextarea [(ngModel)]="benefitsText">
     </textarea>
 </div>
 <p-toast position="top-center" />
@@ -9,7 +9,7 @@
 <div class="toolbarArea">
     <div>
         <label for="onlyABC">Show Only Types A,B,C </label>
-        <p-checkbox [(ngModel)]="onlyABC" [binary]="true" inputId="onlyABC" (click)="changed($event)" />
+        <p-checkbox class="checkbox-input" [(ngModel)]="onlyABC" [binary]="true" inputId="onlyABC" (click)="changed($event)" />
     </div>
     <div>
         <label for="showRules">Show Rules </label>
